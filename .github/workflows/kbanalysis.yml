@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
         with:
-          repository: Devils-Knight/secure-workflows
+          repository: step-security/secure-workflows
     
       - name: KBAnalysis
         uses: Devils-Knight/secure-workflows/kbanalysis@main
