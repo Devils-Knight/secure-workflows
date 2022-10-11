@@ -167,12 +167,12 @@ func (h Handler) Invoke(ctx context.Context, req []byte) ([]byte, error) {
 
 		if strings.Contains(httpRequest.RawPath, "/update-dependabot-config") {
 
-			configFile := ""
+			updateDependabotConfigRequest := ""
 			queryStringParams := httpRequest.QueryStringParameters
 			// if owner is set, assuming that repo, path are also set
 			// get the dockerfile using API
 			if _, ok := queryStringParams["owner"]; ok {
-				configFile, err = GetGitHubWorkflowContents(httpRequest.QueryStringParameters)
+				updateDependabotConfigRequest, err = GetGitHubWorkflowContents(httpRequest.QueryStringParameters)
 				if err != nil {
 					fixResponse := &UpdateDependabotConfigResponse{ConfigfileFetchError: true}
 					output, _ := json.Marshal(fixResponse)
@@ -185,10 +185,10 @@ func (h Handler) Invoke(ctx context.Context, req []byte) ([]byte, error) {
 				}
 			} else {
 				// if owner is not set, then dockerfile should be sent in the body
-				configFile = httpRequest.Body
+				updateDependabotConfigRequest = httpRequest.Body
 			}
 
-			fixResponse, err := UpdateDependabotConfig(configFile)
+			fixResponse, err := UpdateDependabotConfig(updateDependabotConfigRequest)
 			if err != nil {
 				response = events.APIGatewayProxyResponse{
 					StatusCode: http.StatusInternalServerError,
