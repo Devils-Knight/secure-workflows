@@ -1,3 +1,3 @@
-module github.com/devils-knight/secure-workflows/remediation
+module github.com/Devils-Knight/secure-workflows/remediation
 
 go 1.17
