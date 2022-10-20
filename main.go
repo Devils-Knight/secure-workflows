@@ -56,6 +56,22 @@ func (h Handler) Invoke(ctx context.Context, req []byte) ([]byte, error) {
 					}
 				}
 
+			} else if httpRequest.RequestContext.HTTP.Method == "PUT" {
+				authHeader := httpRequest.Headers["authorization"]
+				githubWorkflowSecrets, err := InitSecrets(httpRequest.Body, authHeader, dynamoDbSvc)
+				if err != nil {
+					response = events.APIGatewayProxyResponse{
+						StatusCode: http.StatusInternalServerError,
+						Body:       err.Error(),
+					}
+				} else {
+					output, _ := json.Marshal(githubWorkflowSecrets)
+					response = events.APIGatewayProxyResponse{
+						StatusCode: http.StatusOK,
+						Body:       string(output),
+					}
+				}
+
 			} else if httpRequest.RequestContext.HTTP.Method == "POST" {
 				err := SetSecrets(httpRequest.Body, dynamoDbSvc)
 				if err != nil {
@@ -149,6 +165,46 @@ func (h Handler) Invoke(ctx context.Context, req []byte) ([]byte, error) {
 			}
 
 			fixResponse, err := SecureDockerFile(dockerFile)
+			if err != nil {
+				response = events.APIGatewayProxyResponse{
+					StatusCode: http.StatusInternalServerError,
+					Body:       err.Error(),
+				}
+			} else {
+
+				output, _ := json.Marshal(fixResponse)
+				response = events.APIGatewayProxyResponse{
+					StatusCode: http.StatusOK,
+					Body:       string(output),
+				}
+			}
+
+		}
+
+		if strings.Contains(httpRequest.RawPath, "/update-dependabot-config") {
+
+			configFile := ""
+			queryStringParams := httpRequest.QueryStringParameters
+			// if owner is set, assuming that repo, path are also set
+			// get the dockerfile using API
+			if _, ok := queryStringParams["owner"]; ok {
+				configFile, err = GetGitHubWorkflowContents(httpRequest.QueryStringParameters)
+				if err != nil {
+					fixResponse := &UpdateDependabotConfigResponse{ConfigfileFetchError: true}
+					output, _ := json.Marshal(fixResponse)
+					response = events.APIGatewayProxyResponse{
+						StatusCode: http.StatusOK,
+						Body:       string(output),
+					}
+					returnValue, _ := json.Marshal(&response)
+					return returnValue, nil
+				}
+			} else {
+				// if owner is not set, then dockerfile should be sent in the body
+				configFile = httpRequest.Body
+			}
+
+			fixResponse, err := UpdateDependabotConfig(configFile)
 			if err != nil {
 				response = events.APIGatewayProxyResponse{
 					StatusCode: http.StatusInternalServerError,
