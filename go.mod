@@ -52,3 +52,7 @@ require (
 	github.com/lestrrat-go/jwx v1.2.25
 	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5
 )
+
+replace (
+	github.com/Devils-Knight/secure-workflows/remediation => ./remediation
+)
