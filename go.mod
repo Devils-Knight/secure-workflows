@@ -6,6 +6,8 @@ require (
 	github.com/asottile/dockerfile v3.1.0+incompatible
 	github.com/aws/aws-lambda-go v1.30.0
 	github.com/aws/aws-sdk-go v1.43.45
+	github.com/paulvollmer/dependabot-config-go v0.1.1
+	gopkg.in/yaml.v2 v2.4.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 )
 
@@ -29,7 +31,6 @@ require (
 	github.com/moby/buildkit v0.10.3 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.0.3-0.20211202183452-c5a74bcca799 // indirect
-	github.com/paulvollmer/dependabot-config-go v0.1.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	golang.org/x/crypto v0.0.0-20220427172511-eb4f295cb31f // indirect
@@ -38,7 +39,6 @@ require (
 	golang.org/x/sys v0.0.0-20220422013727-9388b58f7150 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
-	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
 
 require (
@@ -47,7 +47,7 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/google/go-containerregistry v0.8.0
 	github.com/google/go-github/v40 v40.0.0
-	github.com/jarcoal/httpmock v1.1.0
+	github.com/jarcoal/httpmock v1.2.0
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/lestrrat-go/jwx v1.2.25
 	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5
