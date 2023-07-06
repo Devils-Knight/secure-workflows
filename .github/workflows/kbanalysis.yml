@@ -45,7 +45,7 @@ jobs:
             core.setOutput('id', id)
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@18f7dc018cc2cd597073088f7c7591b9d1c02672
+        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
         with:
           token: ${{secrets.PAT}} #  need to use PAT since GITHUB_TOKEN does not initiate workflows
           commit-message: "added action-security.yml for ${{inputs.owner}}/${{inputs.repo}}"
